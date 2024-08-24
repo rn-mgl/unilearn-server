@@ -9,7 +9,7 @@ class Head {
     this.password = password;
   }
 
-  async createHead() {
+  createHead = async () => {
     try {
       const sql = ` INSERT INTO heads (name, surname, username, email, password)
                         VALUES (?, ?, ?, ?, ?);
@@ -29,9 +29,9 @@ class Head {
     } catch (error) {
       console.log(error + `--- create head ---`);
     }
-  }
+  };
 
-  static async getHead(head_id) {
+  static getHead = async (head_id) => {
     try {
       const sql = `SELECT * FROM heads where head_id = ?;`;
 
@@ -43,9 +43,9 @@ class Head {
     } catch (error) {
       console.log(error + `--- get head ---`);
     }
-  }
+  };
 
-  static async verifyHead(head_id) {
+  static verifyHead = async (head_id) => {
     try {
       const sql = `UPDATE heads SET is_verified = ? WHERE head_id = ?;`;
 
@@ -57,9 +57,9 @@ class Head {
     } catch (error) {
       console.log(error + `--- verify head ---`);
     }
-  }
+  };
 
-  static async updateHeadInfo(name, surname, username, image, head_id) {
+  static updateHeadInfo = async (name, surname, username, image, head_id) => {
     try {
       const sql = `UPDATE heads SET name = ?, surname = ?, username = ?, image = ? WHERE head_id = ?;`;
 
@@ -71,9 +71,9 @@ class Head {
     } catch (error) {
       console.log(error + `--- update head info ---`);
     }
-  }
+  };
 
-  static async changePassword(password, head_id) {
+  static changePassword = async (password, head_id) => {
     try {
       const sql = `UPDATE heads SET password = ? WHERE head_id = ?;`;
 
@@ -85,7 +85,7 @@ class Head {
     } catch (error) {
       console.log(error + `--- change password ---`);
     }
-  }
+  };
 }
 
 export default Head;
