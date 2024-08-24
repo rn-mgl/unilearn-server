@@ -11,9 +11,8 @@ class Head {
 
   createHead = async () => {
     try {
-      const sql = ` INSERT INTO heads (name, surname, username, email, password)
-                        VALUES (?, ?, ?, ?, ?);
-        `;
+      const sql = `INSERT INTO heads (name, surname, username, email, password)
+                        VALUES (?, ?, ?, ?, ?);`;
 
       const headValues = [
         this.name,
@@ -31,11 +30,11 @@ class Head {
     }
   };
 
-  static getHead = async (head_id) => {
+  static getHead = async (headId) => {
     try {
       const sql = `SELECT * FROM heads where head_id = ?;`;
 
-      const headValues = [head_id];
+      const headValues = [headId];
 
       const [data, _] = await db.execute(sql, headValues);
 
@@ -45,11 +44,11 @@ class Head {
     }
   };
 
-  static verifyHead = async (head_id) => {
+  static verifyHead = async (headId) => {
     try {
       const sql = `UPDATE heads SET is_verified = ? WHERE head_id = ?;`;
 
-      const headValues = [true, head_id];
+      const headValues = [true, headId];
 
       const [data, _] = await db.execute(sql, headValues);
 
@@ -73,11 +72,11 @@ class Head {
     }
   };
 
-  static changePassword = async (password, head_id) => {
+  static changePassword = async (password, headId) => {
     try {
       const sql = `UPDATE heads SET password = ? WHERE head_id = ?;`;
 
-      const headValues = [password, head_id];
+      const headValues = [password, headId];
 
       const [data, _] = await db.execute(sql, headValues);
 

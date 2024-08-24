@@ -30,11 +30,11 @@ class Admin {
     }
   };
 
-  static getAdmin = async (admin_id) => {
+  static getAdmin = async (adminId) => {
     try {
       const sql = `SELECT * FROM admins WHERE admin_id = ?;`;
 
-      const adminValues = [admin_id];
+      const adminValues = [adminId];
 
       const [data, _] = await db.execute(sql, adminValues);
 
@@ -44,11 +44,11 @@ class Admin {
     }
   };
 
-  static verifyAdmin = async (admin_id) => {
+  static verifyAdmin = async (adminId) => {
     try {
       const sql = `UPDATE admins SET is_verified = ? WHERE admin_id = ?;`;
 
-      const adminValues = [admin_id];
+      const adminValues = [adminId];
 
       const [data, _] = await db.execute(sql, adminValues);
 
@@ -58,11 +58,11 @@ class Admin {
     }
   };
 
-  static updateAdminInfo = async (name, surname, username, image, admin_id) => {
+  static updateAdminInfo = async (name, surname, username, image, adminId) => {
     try {
       const sql = `UPDATE admins SET name = ?, surname = ?, username = ?, image = ? WHERE admin_id = ?;`;
 
-      const adminValues = [name, surname, username, image, admin_id];
+      const adminValues = [name, surname, username, image, adminId];
 
       const [data, _] = await db.execute(sql, adminValues);
 
@@ -72,11 +72,11 @@ class Admin {
     }
   };
 
-  static changePassword = async (password, admin_id) => {
+  static changePassword = async (password, adminId) => {
     try {
       const sql = `UPDATE admins SET password = ? WHERE admin_id = ?;`;
 
-      const adminValues = [password, admin_id];
+      const adminValues = [password, adminId];
 
       const [data, _] = await db.execute(sql, adminValues);
 

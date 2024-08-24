@@ -30,11 +30,11 @@ class Learner {
     }
   };
 
-  static getLearner = async (learner_id) => {
+  static getLearner = async (learnerId) => {
     try {
       const sql = `SELECT * FROM learners WHERE learner_id = ?`;
 
-      const learnerValues = [learner_id];
+      const learnerValues = [learnerId];
 
       const [data, _] = await db.execute(sql, learnerValues);
 
@@ -44,11 +44,11 @@ class Learner {
     }
   };
 
-  static verifyLearner = async (learner_id) => {
+  static verifyLearner = async (learnerId) => {
     try {
       const sql = `UPDATE learners SET is_verified WHERE learner_id = ?;`;
 
-      const learnerValues = [learner_id];
+      const learnerValues = [learnerId];
 
       const [data, _] = await db.execute(sql, learnerValues);
 
@@ -78,11 +78,11 @@ class Learner {
     }
   };
 
-  static changePassword = async (password, learner_id) => {
+  static changePassword = async (password, learnerId) => {
     try {
       const sql = `UPDATE learners SET password = ? WHERE learner_id = ?;`;
 
-      const learnerValues = [password, learner_id];
+      const learnerValues = [password, learnerId];
 
       const [data, _] = await db.execute(sql, learnerValues);
 
