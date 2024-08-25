@@ -11,7 +11,7 @@ const getHead = async (req, res) => {
     throw new NotFoundError(`This head account does not exist.`);
   }
 
-  return res.status(StatusCodes.OK).json(head);
+  return res.status(StatusCodes.OK).json({ success: true, head });
 };
 
 const updateHeadInfo = async (req, res) => {
@@ -24,7 +24,7 @@ const updateHeadInfo = async (req, res) => {
     throw new BadRequestError(`There was a problem updating the information.`);
   }
 
-  return res.status(StatusCodes.OK).json(head);
+  return res.status(StatusCodes.OK).json({ success: true, head });
 };
 
 export { getHead, updateHeadInfo };

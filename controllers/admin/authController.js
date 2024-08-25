@@ -1,4 +1,4 @@
-import Head from "../../models/Head.js";
+import Admin from "../../models/Admin";
 import { StatusCodes } from "http-status-codes";
 import {
   BadRequestError,
@@ -6,47 +6,39 @@ import {
   UnauthorizedError,
 } from "../../errors/index.js";
 import { hashPassword, verifyPassword } from "../../utils/password.js";
-import {
-  createLoginToken,
-  decodeToken,
-  createRegisterToken,
-} from "../../utils/token.js";
+import { createLoginToken, createRegisterToken } from "../../utils/token.js";
 import { verificationMail } from "../../utils/mail.js";
 
-const registerHead = async (req, res) => {
+const registerAdmin = async (req, res) => {
   const { name, surname, username, email, password } = req.body;
 
   const hashedPassword = await hashPassword(password);
 
-  const head = new Head(name, surname, username, email, hashedPassword);
+  const admin = new Admin(name, surname, username, email, hashedPassword);
 
-  const createdHead = await head.createHead();
+  const createAdmin = await admin.createAdmin();
 
-  if (!createdHead) {
-    throw new BadRequestError(
-      `Error in creating head account. Try again later.`
-    );
+  if (!createAdmin) {
+    throw new BadRequestError(`Error in creating admin.`);
   }
 
   const token = createRegisterToken(name, surname, email, username);
 
-  res.status(StatusCodes.OK).json({ success: true, createdHead });
+  res.status(StatusCodes.OK).json({ token });
 
-  await verificationMail(email, `${name} ${surname}`, token);
-
-  return;
+  verificationMail(email, `${name} ${surname}`, token);
 };
 
-const loginHead = async (req, res) => {
+const loginAdmin = async (req, res) => {
   const { candidateEmail, candidatePassword } = req.body;
 
-  const head = await Head.getHeadByEmail(candidateEmail);
+  const admin = await Admin.getAdminByEmail(candidateEmail);
 
-  if (!head || !head[0]) {
-    throw new NotFoundError(`This email does not exist.`);
+  if (!admin || !admin[0]) {
+    throw new NotFoundError(`This admin account does not exist.`);
   }
 
-  const { head_id, email, name, surname, username, password, is_verified } =
+  const { admin_id, name, surname, username, email, password, is_verified } =
     head[0];
 
   const isCorrectPassword = await verifyPassword(candidatePassword, password);
@@ -74,11 +66,11 @@ const loginHead = async (req, res) => {
       .json({ success: true, isVerified: is_verified });
   }
 
-  const token = createLoginToken(head_id, email, username);
+  const token = createLoginToken(admin_id, email, username);
 
   return res
     .status(StatusCodes.OK)
     .json({ success: true, token, isVerified: is_verified });
 };
 
-export { registerHead, loginHead };
+export { registerAdmin, loginAdmin };

@@ -1,18 +1,19 @@
 import db from "../database/connect.js";
 
 class Admin {
-  constructor(name, surname, username, email, password) {
+  constructor(name, surname, username, email, password, addedBy) {
     this.name = name;
     this.surname = surname;
     this.username = username;
     this.email = email;
     this.password = password;
+    this.addedBy = addedBy;
   }
 
   createAdmin = async () => {
     try {
-      const sql = `INSERT INTO admins (name, surname, username, email, password)
-                    VALUES (?, ?, ?, ?, ?);`;
+      const sql = `INSERT INTO admins (name, surname, username, email, password, added_by)
+                    VALUES (?, ?, ?, ?, ?, ?);`;
 
       const adminValues = [
         this.name,
@@ -20,6 +21,7 @@ class Admin {
         this.username,
         this.email,
         this.password,
+        this.addedBy,
       ];
 
       const [data, _] = await db.execute(sql, adminValues);
@@ -30,7 +32,7 @@ class Admin {
     }
   };
 
-  static getAdmin = async (adminId) => {
+  static getAdminById = async (adminId) => {
     try {
       const sql = `SELECT * FROM admins WHERE admin_id = ?;`;
 
@@ -41,6 +43,20 @@ class Admin {
       return data;
     } catch (error) {
       console.log(error + `--- get admin ---`);
+    }
+  };
+
+  static getAdminByEmail = async (email) => {
+    try {
+      const sql = `SELECT * FROM admins WHERE email = ?;`;
+
+      const adminValues = [email];
+
+      const [data, _] = await db.execute(sql, adminValues);
+
+      return data;
+    } catch (error) {
+      console.log(error + `\n\n --- get admin by email --- \n\n`);
     }
   };
 
