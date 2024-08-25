@@ -1,25 +1,25 @@
-import Admin from "../../models/Admin";
+import Learner from "../../models/Learner.js";
 import { StatusCodes } from "http-status-codes";
 import {
   BadRequestError,
   NotFoundError,
   UnauthorizedError,
 } from "../../errors/index.js";
-import { hashPassword, verifyPassword } from "../../utils/password.js";
 import { createLoginToken, createRegisterToken } from "../../utils/token.js";
 import { verificationMail } from "../../utils/mail.js";
+import { hashPassword, verifyPassword } from "../../utils/password.js";
 
-const registerAdmin = async (req, res) => {
+const registerLearner = async (req, res) => {
   const { name, surname, username, email, password } = req.body;
 
   const hashedPassword = await hashPassword(password);
 
-  const admin = new Admin(name, surname, username, email, hashedPassword);
+  const learner = new Learner(name, surname, username, email, hashedPassword);
 
-  const createdAdmin = await admin.createAdmin();
+  const createdLearner = await learner.createLearner();
 
-  if (!createdAdmin) {
-    throw new BadRequestError(`Error in creating admin.`);
+  if (!createdLearner) {
+    throw new BadRequestError(`Error in creating learner account.`);
   }
 
   const token = createRegisterToken(name, surname, email, username);
@@ -27,19 +27,21 @@ const registerAdmin = async (req, res) => {
   res.status(StatusCodes.OK).json({ token });
 
   verificationMail(email, `${name} ${surname}`, token);
+
+  return;
 };
 
-const loginAdmin = async (req, res) => {
+const loginLearner = async (req, res) => {
   const { candidateEmail, candidatePassword } = req.body;
 
-  const admin = await Admin.getAdminByEmail(candidateEmail);
+  const learner = await Learner.getLearnerByEmail(candidateEmail);
 
-  if (!admin || !admin[0]) {
-    throw new NotFoundError(`This admin account does not exist.`);
+  if (!learner || !learner[0]) {
+    throw new NotFoundError(`This learner account does not exist.`);
   }
 
-  const { admin_id, name, surname, username, email, password, is_verified } =
-    head[0];
+  const { learner_id, name, surname, username, email, password, is_verified } =
+    learner[0];
 
   const isCorrectPassword = await verifyPassword(candidatePassword, password);
 
@@ -66,11 +68,11 @@ const loginAdmin = async (req, res) => {
       .json({ success: true, isVerified: is_verified });
   }
 
-  const token = createLoginToken(admin_id, email, username);
+  const token = createLoginToken(learner_id, email, username);
 
   return res
     .status(StatusCodes.OK)
-    .json({ success: true, token, isVerified: is_verified });
+    .json({ success: true, isVerified: is_verified, token });
 };
 
-export { registerAdmin, loginAdmin };
+export { registerLearner, loginLearner };

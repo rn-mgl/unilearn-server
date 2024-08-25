@@ -30,7 +30,7 @@ class Learner {
     }
   };
 
-  static getLearner = async (learnerId) => {
+  static getLearnerById = async (learnerId) => {
     try {
       const sql = `SELECT * FROM learners WHERE learner_id = ?`;
 
@@ -41,6 +41,20 @@ class Learner {
       return data;
     } catch (error) {
       console.log(error + `--- get learner ---`);
+    }
+  };
+
+  static getLearnerByEmail = async (email) => {
+    try {
+      const sql = `SELECT * FROM learners WHERE email = ?;`;
+
+      const learnerValues = [email];
+
+      const [data, _] = await db.execute(sql, learnerValues);
+
+      return data;
+    } catch (error) {
+      console.log(error + `\n\n --- get learner by id --- \n\n`);
     }
   };
 
@@ -92,3 +106,5 @@ class Learner {
     }
   };
 }
+
+export default Learner;

@@ -43,7 +43,7 @@ const loginHead = async (req, res) => {
   const head = await Head.getHeadByEmail(candidateEmail);
 
   if (!head || !head[0]) {
-    throw new NotFoundError(`This email does not exist.`);
+    throw new NotFoundError(`This head account does not exist.`);
   }
 
   const { head_id, email, name, surname, username, password, is_verified } =
