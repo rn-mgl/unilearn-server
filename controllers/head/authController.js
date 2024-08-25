@@ -6,7 +6,12 @@ import {
   UnauthorizedError,
 } from "../../errors/index.js";
 import { hashPassword, verifyPassword } from "../../utils/password.js";
-import { createLoginToken, decodeToken } from "../../utils/token.js";
+import {
+  createLoginToken,
+  decodeToken,
+  createRegisterToken,
+} from "../../utils/token.js";
+import { verificationMail } from "../../utils/mail.js";
 
 const registerHead = async (req, res) => {
   const { name, surname, username, email, password } = req.body;
@@ -23,7 +28,13 @@ const registerHead = async (req, res) => {
     );
   }
 
-  return res.status(StatusCodes.OK).json(createdHead);
+  const token = createRegisterToken(name, surname, email, username);
+
+  res.status(StatusCodes.OK).json(createdHead);
+
+  verificationMail(email, `${name} ${surname}`, token);
+
+  return;
 };
 
 const loginHead = async (req, res) => {
@@ -35,7 +46,8 @@ const loginHead = async (req, res) => {
     throw new NotFoundError(`This email does not exist.`);
   }
 
-  const { head_id, email, username, password, is_verified } = head[0];
+  const { head_id, email, name, surname, username, password, is_verified } =
+    head[0];
 
   const isCorrectPassword = await verifyPassword(candidatePassword, password);
 

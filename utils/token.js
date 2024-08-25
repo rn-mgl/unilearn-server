@@ -1,5 +1,17 @@
 import jwt from "jsonwebtoken";
 
+const createRegisterToken = (name, surname, email, username) => {
+  const token = jwt.sign(
+    { name, surname, email, username },
+    process.env.JWT_TOKEN,
+    {
+      expiresIn: process.env.JWT_END,
+    }
+  );
+
+  return token;
+};
+
 const createLoginToken = (id, email, username) => {
   const token = jwt.sign({ id, email, username }, process.env.JWT_TOKEN, {
     expiresIn: process.env.JWT_END,
@@ -16,4 +28,4 @@ const decodeToken = (token) => {
   return decoded;
 };
 
-export { createLoginToken, decodeToken };
+export { createLoginToken, decodeToken, createRegisterToken };
