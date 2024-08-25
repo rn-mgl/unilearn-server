@@ -30,9 +30,9 @@ class Head {
     }
   };
 
-  static getHead = async (headId) => {
+  static getHeadById = async (headId) => {
     try {
-      const sql = `SELECT * FROM heads where head_id = ?;`;
+      const sql = `SELECT * FROM heads WHERE head_id = ?;`;
 
       const headValues = [headId];
 
@@ -41,6 +41,20 @@ class Head {
       return data;
     } catch (error) {
       console.log(error + `--- get head ---`);
+    }
+  };
+
+  static getHeadByEmail = async (email) => {
+    try {
+      const sql = `SELECT * FROM heads WHERE email = ?;`;
+
+      const headValues = [email];
+
+      const [data, _] = await db.execute(sql, headValues);
+
+      return data;
+    } catch (error) {
+      console.log(error + `--- get head by email ---`);
     }
   };
 
