@@ -54,6 +54,18 @@ class Room {
     }
   };
 
+  static getAllPrivateRooms = async () => {
+    try {
+      const sql = `SELECT * FROM rooms WHERE is_public = 0;`;
+
+      const [data, _] = await db.execute(sql);
+
+      return data;
+    } catch (error) {
+      console.log(error + `\n\n --- get all private rooms --- \n\n`);
+    }
+  };
+
   static deleteRoom = async (roomId) => {
     try {
       const sql = `UPDATE room SET is_deleted = 1 WHERE room_id = ?;`;
