@@ -22,6 +22,20 @@ class RoomMember {
     }
   };
 
+  static getRoomMember = async (roomMemberId) => {
+    try {
+      const sql = `SELECT * FROM room_members WHERE room_member_id = ?;`;
+
+      const roomMemberValues = [roomMemberId];
+
+      const [data, _] = await db.execute(sql, roomMemberValues);
+
+      return data;
+    } catch (error) {
+      console.log(error + `\n\n --- get room member --- \n\n`);
+    }
+  };
+
   static deleteRoomMember = async (roomMemberId) => {
     try {
       const sql = `DELETE FROM room_members WHERE room_member_id = ?;`;
