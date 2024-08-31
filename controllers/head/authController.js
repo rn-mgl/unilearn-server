@@ -1,17 +1,13 @@
-import Head from "../../models/Head.js";
 import { StatusCodes } from "http-status-codes";
 import {
   BadRequestError,
   NotFoundError,
   UnauthorizedError,
 } from "../../errors/index.js";
-import { hashPassword, verifyPassword } from "../../utils/password.js";
-import {
-  createLoginToken,
-  decodeToken,
-  createRegisterToken,
-} from "../../utils/token.js";
+import Head from "../../models/Head.js";
 import { verificationMail } from "../../utils/mail.js";
+import { hashPassword, verifyPassword } from "../../utils/password.js";
+import { createLoginToken, createRegisterToken } from "../../utils/token.js";
 
 const registerHead = async (req, res) => {
   const { name, surname, username, email, password } = req.body;
@@ -81,4 +77,4 @@ const loginHead = async (req, res) => {
     .json({ success: true, token, isVerified: is_verified });
 };
 
-export { registerHead, loginHead };
+export { loginHead, registerHead };

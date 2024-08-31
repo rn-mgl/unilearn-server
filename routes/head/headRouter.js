@@ -1,8 +1,12 @@
 import { Router } from "express";
-import { getHead } from "../../controllers/head/headController.js";
+import {
+  getHead,
+  updateHeadInfo,
+} from "../../controllers/head/headController.js";
 
 const router = Router();
 
 router.route("/").post(getHead);
+router.route("/:head_id").patch(updateHeadInfo);
 
 export default router;
