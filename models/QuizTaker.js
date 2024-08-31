@@ -36,3 +36,5 @@ class QuizTaker {
     }
   };
 }
+
+export default QuizTaker;
