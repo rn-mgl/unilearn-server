@@ -31,9 +31,9 @@ const getRoomPost = async (req, res) => {
 };
 
 const getAllRoomPosts = async (req, res) => {
-  const { room_id } = req.params;
+  const { roomId } = req.query;
 
-  const roomPosts = await RoomPost.getAllRoomPosts(room_id);
+  const roomPosts = await RoomPost.getAllRoomPosts(roomId);
 
   if (!roomPosts) {
     throw new BadRequestError(`Error in getting all room posts.`);

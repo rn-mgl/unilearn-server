@@ -114,3 +114,5 @@ class PostQuiz {
     }
   };
 }
+
+export default PostQuiz;

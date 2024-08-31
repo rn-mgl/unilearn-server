@@ -1,6 +1,6 @@
 import db from "../database/connect.js";
 
-class QuizTakers {
+class QuizTaker {
   constructor(answer, postQuizId, takerId) {
     this.answer = answer;
     this.postQuizId = postQuizId;
