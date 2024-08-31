@@ -50,4 +50,16 @@ const getRoomMember = async (req, res) => {
   return res.status(StatusCodes.OK).json(roomMember[0]);
 };
 
-export { createRoomMember, deleteRoomMember, getRoomMember };
+const getAllRoomMembers = async (req, res) => {
+  const { roomId } = req.body;
+
+  const roomMembers = await RoomMember.getAllRoomMembers(roomId);
+
+  if (!roomMembers) {
+    throw new BadRequestError(`Error in getting room members.`);
+  }
+
+  return res.status(StatusCodes.OK).json(roomMembers);
+};
+
+export { createRoomMember, deleteRoomMember, getRoomMember, getAllRoomMembers };

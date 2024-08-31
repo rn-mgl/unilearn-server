@@ -1,6 +1,6 @@
 import RoomPost from "../../models/RoomPost.js";
 import { StatusCodes } from "http-status-codes";
-import { BadRequestError, NotFoundError } from "../../errors/";
+import { BadRequestError, NotFoundError } from "../../errors/index.js";
 
 const createRoomPost = async (req, res) => {
   const { title, body, roomId, postedBy, type } = req.body;

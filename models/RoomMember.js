@@ -49,6 +49,20 @@ class RoomMember {
       console.log(error + `--- delete room member ---`);
     }
   };
+
+  static getAllRoomMembers = async (roomId) => {
+    try {
+      const sql = `SELECT * FROM room_members WHERE room_id = ?;`;
+
+      const roomMemberValues = [roomId];
+
+      const [data, _] = await db.execute(sql, roomMemberValues);
+
+      return data;
+    } catch (error) {
+      console.log(error + `\n\n --- get all room members --- \n\n`);
+    }
+  };
 }
 
 export default RoomMember;
