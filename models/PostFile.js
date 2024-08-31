@@ -98,3 +98,5 @@ class PostFile {
     }
   };
 }
+
+export default PostFile;
