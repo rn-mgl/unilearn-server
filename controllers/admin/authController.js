@@ -1,4 +1,4 @@
-import Admin from "../../models/Admin";
+import Admin from "../../models/Admin.js";
 import { StatusCodes } from "http-status-codes";
 import {
   BadRequestError,
