@@ -10,7 +10,11 @@ import { Server } from "socket.io";
 import { createServer } from "http";
 
 // middleware
-import { notFoundMiddleware, errorMiddleware } from "./middlewares/index.js";
+import {
+  notFoundMiddleware,
+  errorMiddleware,
+  authMiddleware,
+} from "./middlewares/index.js";
 
 // router
 import headRouter from "./routes/head/headRouter.js";
@@ -41,28 +45,28 @@ app.use(cors({ origin: "*" }));
 app.use(helmet());
 
 // head
-app.use("/head", headRouter);
+app.use("/head", authMiddleware, headRouter);
 app.use("/head_auth", headAuthRouter);
 
 // admin
-app.use("/admin", adminRouter);
+app.use("/admin", authMiddleware, adminRouter);
 app.use("/admin_auth", adminAuthRouter);
 
 // learner
-app.use("/learner", learnerRouter);
+app.use("/learner", authMiddleware, learnerRouter);
 app.use("/learner_auth", learnerAuthRouter);
 
 // room
-app.use("/room", roomRouter);
-app.use("/room_post", roomPostRouter);
-app.use("/room_member", roomMemberRouter);
+app.use("/room", authMiddleware, roomRouter);
+app.use("/room_post", authMiddleware, roomPostRouter);
+app.use("/room_member", authMiddleware, roomMemberRouter);
 
 // post
-app.use("/post_file", postFileRouter);
-app.use("/post_quiz", postQuizRouter);
+app.use("/post_file", authMiddleware, postFileRouter);
+app.use("/post_quiz", authMiddleware, postQuizRouter);
 
 // quiz taker
-app.use("/quiz_taker", quizTakerRouter);
+app.use("/quiz_taker", authMiddleware, quizTakerRouter);
 
 app.use(errorMiddleware);
 app.use(notFoundMiddleware);
